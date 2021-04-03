@@ -118,7 +118,12 @@ def salida():
 # ME QUEDE EN AGREGAR MODIFICACION Y ELIMINACION DE ARTICULOS
 @app.route('/modificar', methods=['POST'])
 def modificar():
-    
+    continue    
+
+
+# @app.roure('/borrar')
+# def eliminar():
+#     continue
 
 # ejecucion de la aplicacion
 if __name__ == '__main__':
