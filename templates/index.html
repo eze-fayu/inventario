@@ -1,0 +1,16 @@
+<div class="alta">
+    <h3>Alta de Artículos</h3>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    {% for message in messages %}
+        <p>{{ message }}</p>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+    <form action="/alta", method="POST">
+        <input type="text" name="articulo_cod" placeholder="Código Artículo">
+        <input type="text" name="articulo_um" placeholder="UM Artículo">
+        <input type="text" name="articulo_nombre" placeholder="Nombre Artículo">
+        <button type="submit">Enviar</button>
+    </form>
+</div>
