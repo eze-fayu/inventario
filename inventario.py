@@ -115,6 +115,10 @@ def salida():
             return redirect(url_for('index'))
 
 
+# ME QUEDE EN AGREGAR MODIFICACION Y ELIMINACION DE ARTICULOS
+@app.route('/modificar', methods=['POST'])
+def modificar():
+    
 
 # ejecucion de la aplicacion
 if __name__ == '__main__':
