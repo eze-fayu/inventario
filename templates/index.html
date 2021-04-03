@@ -1,16 +1,81 @@
-<div class="alta">
-    <h3>Alta de Artículos</h3>
-    {% with messages = get_flashed_messages() %}
-    {% if messages %}
-    {% for message in messages %}
-        <p>{{ message }}</p>
-    {% endfor %}
-    {% endif %}
-    {% endwith %}
-    <form action="/alta", method="POST">
-        <input type="text" name="articulo_cod" placeholder="Código Artículo">
-        <input type="text" name="articulo_um" placeholder="UM Artículo">
-        <input type="text" name="articulo_nombre" placeholder="Nombre Artículo">
-        <button type="submit">Enviar</button>
-    </form>
-</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="alta_art">
+        <h3>Alta de Artículos</h3>
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        {% for message in messages %}
+            <p>{{ message }}</p>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+        <form action="/alta", method="POST">
+            <input type="text" name="articulo_cod" placeholder="Código Artículo">
+            <input type="text" name="articulo_um" placeholder="UM Artículo">
+            <input type="text" name="articulo_nombre" placeholder="Nombre Artículo">
+            <button type="submit">Enviar</button>
+        </form>
+    </div>
+    
+    <div class="alta_stock">
+        <h3>Entrada de Artículos</h3>
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        {% for message in messages %}
+            <p>{{ message }}</p>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+        <form action="/entrada", method="POST">
+            <input type="text" name="articulo_cod" placeholder="Código Artículo">
+            <input type="text" name="articulo_um" placeholder="UM Artículo">
+            <input type="text" name="articulo_cantidad" placeholder="Cantidad">
+            <button type="submit">Enviar</button>
+        </form>
+    </div>
+    <div class="baja_stock">
+        <h3>Salida de Artículos</h3>
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        {% for message in messages %}
+            <p>{{ message }}</p>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+        <form action="/salida", method="POST">
+            <input type="text" name="articulo_cod" placeholder="Código Artículo">
+            <input type="text" name="articulo_um" placeholder="UM Artículo">
+            <input type="text" name="articulo_cantidad" placeholder="Cantidad">
+            <button type="submit">Enviar</button>
+        </form>
+    </div>
+    <div>
+        <table>
+            <thead>
+                <td>Código Articulo</td>
+                <td>UM Articulo</td>
+                <td>Nombre Articulo</td>
+                <td>Cantidad</td>
+            </thead>
+            <tbody>
+                {% for cantidad in cantidades %}
+                <tr>
+                    <td>{{ cantidad.0}}</td>
+                    <td>{{ cantidad.2}}</td>
+                    <td>{{ cantidad.1}}</td>
+                    <td>{{ cantidad.3}}</td>
+                </tr>    
+                {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+</body>
+</html>

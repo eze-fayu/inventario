@@ -6,10 +6,10 @@
 insert INTO  ARTICULO values (704,02,800)
 
 # AGREGAR ENTRADA
-insert INTO  ENTRADA(CODIGO,unidad_medida,CANTIDAD) values (704,02,800)
+insert INTO movimientos(CODIGO,unidad_medida,CANTIDAD) values (704,02,800)
 
 # AGREGAR SALIDA
-insert INTO  SALIDA(CODIGO,unidad_medida,CANTIDAD) values (704,02,40)
+insert INTO MOVIMIENTOS(CODIGO,unidad_medida,CANTIDAD) values (704,02,40)
 
 # TOTAL ENTRADAS
 select articulos.codigo, articulos.nombre, articulos.unidad_medida, sum(entrada.cantidad)
