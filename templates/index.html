@@ -1,81 +1,111 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <div class="alta_art">
-        <h3>Alta de Artículos</h3>
-        {% with messages = get_flashed_messages() %}
-        {% if messages %}
-        {% for message in messages %}
-            <p>{{ message }}</p>
-        {% endfor %}
-        {% endif %}
-        {% endwith %}
-        <form action="/alta", method="POST">
-            <input type="text" name="articulo_cod" placeholder="Código Artículo">
-            <input type="text" name="articulo_um" placeholder="UM Artículo">
-            <input type="text" name="articulo_nombre" placeholder="Nombre Artículo">
-            <button type="submit">Enviar</button>
-        </form>
-    </div>
-    
-    <div class="alta_stock">
-        <h3>Entrada de Artículos</h3>
-        {% with messages = get_flashed_messages() %}
-        {% if messages %}
-        {% for message in messages %}
-            <p>{{ message }}</p>
-        {% endfor %}
-        {% endif %}
-        {% endwith %}
-        <form action="/entrada", method="POST">
-            <input type="text" name="articulo_cod" placeholder="Código Artículo">
-            <input type="text" name="articulo_um" placeholder="UM Artículo">
-            <input type="text" name="articulo_cantidad" placeholder="Cantidad">
-            <button type="submit">Enviar</button>
-        </form>
-    </div>
-    <div class="baja_stock">
-        <h3>Salida de Artículos</h3>
-        {% with messages = get_flashed_messages() %}
-        {% if messages %}
-        {% for message in messages %}
-            <p>{{ message }}</p>
-        {% endfor %}
-        {% endif %}
-        {% endwith %}
-        <form action="/salida", method="POST">
-            <input type="text" name="articulo_cod" placeholder="Código Artículo">
-            <input type="text" name="articulo_um" placeholder="UM Artículo">
-            <input type="text" name="articulo_cantidad" placeholder="Cantidad">
-            <button type="submit">Enviar</button>
-        </form>
-    </div>
-    <div>
-        <table>
-            <thead>
-                <td>Código Articulo</td>
-                <td>UM Articulo</td>
-                <td>Nombre Articulo</td>
-                <td>Cantidad</td>
-            </thead>
-            <tbody>
-                {% for cantidad in cantidades %}
-                <tr>
-                    <td>{{ cantidad.0}}</td>
-                    <td>{{ cantidad.2}}</td>
-                    <td>{{ cantidad.1}}</td>
-                    <td>{{ cantidad.3}}</td>
-                </tr>    
-                {% endfor %}
-            </tbody>
-        </table>
+{% extends 'diagrama.html' %}
+
+
+{% block body%}
+
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    {% for message in messages %}
+        <!-- <p>{{ message }}</p> -->
+        <div class="alert alert-dismissible alert-success">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{ message }}
+          </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+<div class="row">
+
+    <div class="col-md-2 p-5">
+        <div class="card border-success mb-3" style="max-width: 20rem;">    
+            <h3 class="card-title text-center">Alta de Artículos</h3>
+            <form class="form-group" action="/alta", method="POST">
+                <input class="form-control" type="text" name="articulo_cod" placeholder="Código Artículo">
+                <input class="form-control" type="text" name="articulo_um" placeholder="UM Artículo">
+                <input class="form-control" type="text" name="articulo_nombre" placeholder="Nombre Artículo">
+                <button type="submit" class="btn btn-outline-primary btn-block">Enviar</button>
+            </form>
+        </div>
 
     </div>
-</body>
-</html>
+    <div class="col-md-2 p-5">
+        <div class="card border-success mb-3" style="max-width: 20rem;">
+            <h3 class="card-title text-center">Entrada de Artículos</h3>
+        
+            <form class="form-group" action="/entrada", method="POST">
+                <input class="form-control" type="text" name="articulo_cod" placeholder="Código Artículo">
+                <input class="form-control" type="text" name="articulo_um" placeholder="UM Artículo">
+                <input class="form-control" type="text" name="articulo_cantidad" placeholder="Cantidad">
+                <button type="submit" class="btn btn-outline-primary btn-block">Enviar</button>
+            </form>
+        </div>
+
+    </div>
+    <div class="col-md-2 p-5">
+        <div class="card border-success mb-3" style="max-width: 20rem;">
+            <h3 class="card-title text-center">Salida de Artículos</h3>
+        
+            <form class="form-group" action="/salida", method="POST">
+                <input class="form-control" type="text" name="articulo_cod" placeholder="Código Artículo">
+                <input class="form-control" type="text" name="articulo_um" placeholder="UM Artículo">
+                <input class="form-control" type="text" name="articulo_cantidad" placeholder="Cantidad">
+                <button type="submit" class="btn btn-outline-primary btn-block">Enviar</button>
+            </form>
+        </div>
+
+    </div>
+    
+</div>
+
+
+
+<div>
+    <table class="table table-light">
+        <thead>
+            <th scope="col">Código Articulo</th>
+            <th scope="col">UM Articulo</th>
+            <th scope="col">Nombre Articulo</th>
+            <th scope="col">Cantidad</th>
+        </thead>
+        <tbody>
+            {% for cantidad in cantidades %}
+            <tr class="table-active">
+                <td>{{ cantidad.0}}</td>
+                <td>{{ cantidad.2}}</td>
+                <td>{{ cantidad.1}}</td>
+                <td>{{ cantidad.3}}</td>
+            </tr>    
+            {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+
+<div>
+    <table class="table table-light">
+        <thead>
+            <th scope="col">Código Articulo</th>
+            <!-- <td>UM Articulo</td> -->
+            <th scope="col">Nombre Articulo</th>
+            <th scope="col">Cantidad</th>
+            <th scope="col">Modificar</th>
+        </thead>
+        <tbody>
+            {% for mp in materiasprimas %}
+            <tr class="table-active">
+                <td>{{ mp.0 }}</td>
+                <!-- <td>{{ mp.2 }}</td> -->
+                <td>{{ mp.1 }}</td>
+                <td>{{ mp.3 }}</td>
+                <td>
+                    <a href="/modificar/{{mp.0}}" class="btn btn-secondary"</button>Modificar</a>
+                </td>
+            </tr>    
+            {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+
+{% endblock%}
