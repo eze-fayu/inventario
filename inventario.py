@@ -25,9 +25,10 @@ def index():
                     '''
     cursor.execute(listar_stock)
     stock_actual = cursor.fetchall()
-    listar_stock2 = '''select articulos.codigo, articulos.nombre, articulos.unidad_medida, materiaprima.cantidad
+    listar_stock2 = '''select articulos.codigo, articulos.nombre, articulos.unidad_medida, materiaprima.cantidad, max(materiaprima.fecha_movimientos)
                     from articulos
                     INNER JOIN materiaprima  on articulos.codigo = materiaprima.codigo and articulos.unidad_medida = materiaprima.unidad_medida
+                    group by articulos.codigo
                     '''
     cursor.execute(listar_stock2)
     mp_actual = cursor.fetchall()
@@ -72,7 +73,7 @@ def alta():
                 if materiaprima == "1":
                     fecha = time.strftime("%c")
                     #  mando los datos a la base de datos materiaprima
-                    cursor.execute("insert INTO materiaprima values (?,?,0,?)",(articulo_cod,articulo_um,fecha))
+                    cursor.execute("insert INTO materiaprima(codigo, unidad_medida, cantidad, fecha_movimientos) values (?,?,0,?)",(articulo_cod,articulo_um,fecha))
                     # los guardo
                     conexion.commit()
 
@@ -144,12 +145,11 @@ def salida():
             return redirect(url_for('index'))
 
 
-# ME QUEDE EN AGREGAR MODIFICACION Y ELIMINACION DE ARTICULOS
 @app.route('/modificar/<codigo>')
 def datos_modificar(codigo):
     # HAGO LA OCNSULTA en la base de datos por el valor que tengo al hacer click en modificar
     fecha = time.strftime("%c")
-    mod_mp = '''select articulos.codigo, articulos.nombre, materiaprima.cantidad
+    mod_mp = '''select articulos.codigo, articulos.nombre, materiaprima.cantidad, materiaprima.unidad_medida
                     from articulos
                     INNER JOIN materiaprima  on articulos.codigo = materiaprima.codigo and articulos.unidad_medida = materiaprima.unidad_medida
                     where materiaprima.codigo = ?
@@ -158,6 +158,7 @@ def datos_modificar(codigo):
     cursor.execute(mod_mp, (codigo,))  #LOS CORCHETES ES PARA QUE TOME LITERAL EL VALOR DE LA VARIABLE PORQUE CON LA TUPLA TOMA 3 (154 COMO 1,5 Y 4) sino (codigo y ,) para q haga tupla
     # guardo los datos en la variable
     mp_modificar = cursor.fetchall()
+    print(mp_modificar[0])
     return render_template('modificar.html', mp_edit = mp_modificar[0])    
 
 @app.route('/actualiza/<codigo>', methods=['POST'])
@@ -165,16 +166,25 @@ def modificar(codigo):
     if request.method == 'POST':
         fecha = time.strftime("%c")
         # obtengo los datos cargados en el formulario y los mando a variables
-        # articulo_cod = request.form['articulo_cod']
-        # articulo_um = request.form['articulo_um']
+        articulo_cod = request.form['articulo_cod']
+        articulo_um = request.form['articulo_um']
         cantidad = request.form['cantidad']
+        
+        print("valores a ingresar",articulo_cod, articulo_um, cantidad, fecha)
         # primero controlo que no existe, si es asi 
-        consulta = '''update materiaprima
-                        set cantidad = ?,
-                        fecha_movimientos = ?
-                    where codigo = ?
+        
+        # consulta por actualizacion. pase a insertar nuevos datos
+        # consulta = '''update materiaprima
+        #                 set cantidad = ?,
+        #                 fecha_movimientos = ?
+        #             where codigo = ?
+        # '''
+        consulta = '''insert INTO materiaprima(codigo, unidad_medida, cantidad, fecha_movimientos) values (?,?,?,?) 
         '''
-        cursor.execute(consulta, (cantidad, fecha, codigo))
+        
+        
+        cursor.execute(consulta, (articulo_cod,articulo_um,cantidad,fecha))
+        # cursor.execute(consulta, (cantidad, fecha, codigo))
         # los guardo
         conexion.commit()
         #  mensaje de que se guardo con exito

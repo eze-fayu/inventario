@@ -5,11 +5,11 @@
 
 <div class="card border-success mb-3" style="max-width: 20rem;"">
     <h3 class="card-title text-center">Modificación de Materias Primas</h3>
-    <form class="form-group" action="/actualiza/{{mp_edit.0}}", method="POST">
-        <input class="form-control" type="text" name="articulo_cod" placeholder="Código Artículo" value="{{ mp_edit.0 }}" disabled>
-        <!-- <input type="text" name="articulo_um" placeholder="UM Artículo"> -->
-        <input class="form-control" type="text" name="articulo_nombre" placeholder="Nombre Artículo" value="{{ mp_edit.1 }}" disabled>
-        <input class="form-control" type="numeric" name="cantidad" placeholder="Cantidad" value="{{ mp_edit.2 }}" >
+    <form class="form-group" action="/actualiza/{{mp_edit.0}}", method="POST" autocomplete="off">
+        <input class="form-control" type="text" name="articulo_cod" placeholder="Código Artículo" value="{{ mp_edit.0 }}" readonly>
+        <input class="form-control" type="text" name="articulo_um" placeholder="UM Artículo" value="{{ mp_edit.3 }}" readonly>
+        <input class="form-control" type="text" name="articulo_nombre" placeholder="Nombre Artículo" value="{{ mp_edit.1 }}" readonly>
+        <input class="form-control" type="numeric" name="cantidad" placeholder="Cantidad" value="0"> <!-- value="{{ mp_edit.2 }}" > -->
         <button type="submit" class="btn btn-outline-primary btn-block boton-acc">Enviar</button>
     </form>
 </div>
