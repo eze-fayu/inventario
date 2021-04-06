@@ -44,31 +44,44 @@ def alta():
         articulo_nombre = request.form['articulo_nombre']
         materiaprima = request.form['matprim']
         print("valor de materia prima: ",materiaprima)
-        if materiaprima == 1:
+        if materiaprima == "1":
             mp = "True"
         else:
             mp = "False"
         print("valor de mp :",mp)
-        # primero controlo que no existe, si es asi 
-        consulta = '''select articulos.codigo, articulos.nombre, articulos.unidad_medida
-        from articulos
-        WHERE articulos.codigo = ? and articulos.unidad_medida = ?
-        '''
-        cursor.execute(consulta, (articulo_cod, articulo_um))
-        resultado = cursor.fetchall()
-        # return resultado
-
-        if len(resultado) == 0:
-            #  mando los datos a la base de datos
-            cursor.execute("insert INTO ARTICULOS values (?,?,?,?)",(articulo_cod,articulo_um,articulo_nombre.upper(),mp))
-            # los guardo
-            conexion.commit()
-            #  mensaje de que se guardo con exito
-            flash("Artículo Agregado con Éxito")
+        # controlo si esta vacio lo saco, si esta completo lo guardo
+        if articulo_cod == '' or articulo_um == '' or articulo_nombre == '':
+            flash("Artículo Incompleto")
             return redirect(url_for('index'))
         else:
-            flash("Artículo Existente")
-            return redirect(url_for('index'))
+            # primero controlo que no existe, si es asi 
+            consulta = '''select articulos.codigo, articulos.nombre, articulos.unidad_medida
+            from articulos
+            WHERE articulos.codigo = ? and articulos.unidad_medida = ?
+            '''
+            cursor.execute(consulta, (articulo_cod, articulo_um))
+            resultado = cursor.fetchall()
+            # return resultado
+
+            if len(resultado) == 0:
+                #  mando los datos a la base de datos articulo
+                cursor.execute("insert INTO ARTICULOS values (?,?,?,?)",(articulo_cod,articulo_um,articulo_nombre.upper(),mp))
+                # los guardo
+                conexion.commit()
+                #  mensaje de que se guardo con exito
+                if materiaprima == "1":
+                    fecha = time.strftime("%c")
+                    #  mando los datos a la base de datos materiaprima
+                    cursor.execute("insert INTO materiaprima values (?,?,0,?)",(articulo_cod,articulo_um,fecha))
+                    # los guardo
+                    conexion.commit()
+
+                #  mensaje de que se guardo con exito
+                flash("Artículo Agregado con Éxito")
+                return redirect(url_for('index'))
+            else:
+                flash("Artículo Existente")
+                return redirect(url_for('index'))
 
 # pagina de alta de stock
 # time.strftime("%c") 
