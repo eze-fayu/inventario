@@ -38,10 +38,17 @@ def index():
 def alta():
     if request.method == 'POST':
         # obtengo los datos cargados en el formulario y los mando a variables
+        mp = ''
         articulo_cod = request.form['articulo_cod']
         articulo_um = request.form['articulo_um']
         articulo_nombre = request.form['articulo_nombre']
-        
+        materiaprima = request.form['matprim']
+        print("valor de materia prima: ",materiaprima)
+        if materiaprima == 1:
+            mp = "True"
+        else:
+            mp = "False"
+        print("valor de mp :",mp)
         # primero controlo que no existe, si es asi 
         consulta = '''select articulos.codigo, articulos.nombre, articulos.unidad_medida
         from articulos
@@ -53,7 +60,7 @@ def alta():
 
         if len(resultado) == 0:
             #  mando los datos a la base de datos
-            cursor.execute("insert INTO ARTICULOS values (?,?,?)",(articulo_cod,articulo_um,articulo_nombre.upper()))
+            cursor.execute("insert INTO ARTICULOS values (?,?,?,?)",(articulo_cod,articulo_um,articulo_nombre.upper(),mp))
             # los guardo
             conexion.commit()
             #  mensaje de que se guardo con exito
