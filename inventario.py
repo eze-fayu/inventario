@@ -3,12 +3,17 @@
 
 from flask import Flask, render_template, request, redirect, url_for, flash
 import sqlite3
+import os
 import time
+import crea_bd 
 
 # inicio la aplicacion
 app = Flask(__name__)
 
 #  conexion con la base de datos sqlite
+if not os.path.exists('Stock.db'):
+        crea_bd.creabase
+        
 conexion = sqlite3.connect('Stock.db', check_same_thread=False)
 cursor = conexion.cursor()
 
