@@ -4,7 +4,7 @@
 import sqlite3
 
 def creabase():
-	conexion = sqlite3.connect('Stock.db')
+	conexion = sqlite3.connect('bd/Stock.db')
 	cursor = conexion.cursor()
 
 	cursor.execute("""CREATE TABLE "articulos" (

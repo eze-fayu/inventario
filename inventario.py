@@ -11,10 +11,10 @@ import crea_bd
 app = Flask(__name__)
 
 #  conexion con la base de datos sqlite
-if not os.path.exists('Stock.db'):
+if not os.path.exists('bd/Stock.db'):
         crea_bd.creabase
         
-conexion = sqlite3.connect('Stock.db', check_same_thread=False)
+conexion = sqlite3.connect('bd/Stock.db', check_same_thread=False)
 cursor = conexion.cursor()
 
 # guardo datos de los mensajes y la sesion
@@ -202,4 +202,4 @@ def modificar(codigo):
 
 # ejecucion de la aplicacion
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port = 5000, debug = True)
+    app.run(host="0.0.0.0", port = 5555, debug = True)
