@@ -76,7 +76,7 @@ def alta():
                 conexion.commit()
                 #  mensaje de que se guardo con exito
                 if materiaprima == "1":
-                    fecha = time.strftime("%c")
+                    fecha = time.strftime("%Y%m%d%H%M%S")
                     #  mando los datos a la base de datos materiaprima
                     cursor.execute("insert INTO materiaprima(codigo, unidad_medida, cantidad, fecha_movimientos) values (?,?,0,?)",(articulo_cod,articulo_um,fecha))
                     # los guardo
@@ -90,11 +90,11 @@ def alta():
                 return redirect(url_for('index'))
 
 # pagina de alta de stock
-# time.strftime("%c") 
+# time.strftime("%Y%m%d%H%M%S") 
 @app.route('/entrada', methods=['POST'])
 def entrada():
     if request.method == 'POST':
-        fecha = time.strftime("%c")
+        fecha = time.strftime("%Y%m%d%H%M%S")
         # obtengo los datos cargados en el formulario y los mando a variables
         articulo_cod = request.form['articulo_cod']
         articulo_um = request.form['articulo_um']
@@ -122,7 +122,7 @@ def entrada():
 @app.route('/salida', methods=['POST'])
 def salida():
     if request.method == 'POST':
-        fecha = time.strftime("%c")
+        fecha = time.strftime("%Y%m%d%H%M%S")
         # obtengo los datos cargados en el formulario y los mando a variables
         articulo_cod = request.form['articulo_cod']
         articulo_um = request.form['articulo_um']
@@ -153,7 +153,7 @@ def salida():
 @app.route('/modificar/<codigo>')
 def datos_modificar(codigo):
     # HAGO LA OCNSULTA en la base de datos por el valor que tengo al hacer click en modificar
-    fecha = time.strftime("%c")
+    fecha = time.strftime("%Y%m%d%H%M%S")
     mod_mp = '''select articulos.codigo, articulos.nombre, materiaprima.cantidad, materiaprima.unidad_medida
                     from articulos
                     INNER JOIN materiaprima  on articulos.codigo = materiaprima.codigo and articulos.unidad_medida = materiaprima.unidad_medida
@@ -169,7 +169,7 @@ def datos_modificar(codigo):
 @app.route('/actualiza/<codigo>', methods=['POST'])
 def modificar(codigo):
     if request.method == 'POST':
-        fecha = time.strftime("%c")
+        fecha = time.strftime("%Y%m%d%H%M%S")
         # obtengo los datos cargados en el formulario y los mando a variables
         articulo_cod = request.form['articulo_cod']
         articulo_um = request.form['articulo_um']
