@@ -1,6 +1,6 @@
 .row{
-
-    align-self: auto;
+  position: relative;
+  box-align: auto;
 
 }
 /* body{
