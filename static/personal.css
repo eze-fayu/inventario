@@ -1,9 +1,14 @@
-/* body{
-    background-color: rgb(221, 209, 209);
-}
-
 .row{
 
     align-self: auto;
 
+}
+/* body{
+  background-color: aquamarine;  !important
 } */
+@media (max-width: 768px) {
+  /* For mobile phones: */
+  [class*="col-md-1"] {
+    width: 100%;
+  }
+}
