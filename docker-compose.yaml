@@ -17,9 +17,8 @@ services:
     links:
       - inventario
     environment:
-      - DOMAIN=squad_web
-      - PORT=3000
-      - authtoken= 1qvuHs0Z1tT1ZIuzQ86JFLoaV4B_6ktDvT7BabQ1RUYboAkY7
+      - DOMAIN=inventario
+      - PORT=5555
 
 # datos ngrok
 #           authtoken: 1qvuHs0Z1tT1ZIuzQ86JFLoaV4B_6ktDvT7BabQ1RUYboAkY7
