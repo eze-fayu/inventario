@@ -1,14 +1,55 @@
-.row{
-  position: relative;
-  box-align: auto;
+#alta{
+  grid-area: alta;
+}
+#entrada{
+  grid-area: entrada;
+}
+#salida{
+  grid-area: salida;
+}
+#rueda{
+  grid-area: rueda;
+}
+#transporte{
+  grid-area: transporte;
+}
+#mercaderia{
+  grid-area: mercaderia;
+}
+#materiaprima{
+  grid-area: materiaprima;
+}
 
+.grilla{
+  background-color: rgb(230, 219, 205);
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: auto auto auto;
+  grid-template-areas: 
+  "alta          entrada       salida"
+  "rueda            .          transporte"
+  "mercaderia       .          materiaprima";
+  align-items: center;
 }
 /* body{
-  background-color: aquamarine;  !important
+  background-color: aquamarine;
 } */
-@media (max-width: 768px) {
+
+
+@media screen and (max-width: 1200px) {
   /* For mobile phones: */
-  [class*="col-md-1"] {
-    width: 100%;
+  .grilla {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto auto auto auto auto;
+    grid-template-areas: 
+          "alta"
+          "entrada"       
+          "salida"
+          "rueda"
+          "transporte"
+          "mercaderia"
+          "materiaprima";
+    align-items: center;
   }
 }

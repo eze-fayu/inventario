@@ -17,8 +17,7 @@ def creabase():
 	""" )
 	conexion.commit()
 
-	cursor.execute("""
-	CREATE TABLE "materiaprima" (
+	cursor.execute("""	CREATE TABLE "materiaprima" (
 		"codigo"	INTEGER NOT NULL DEFAULT 'references articulos(codigo)',
 		"unidad_medida"	INTEGER NOT NULL DEFAULT 'references articulos(unidad_medida)',
 		"cantidad"	INTEGER NOT NULL,
@@ -30,8 +29,7 @@ def creabase():
 	conexion.commit()
 
 
-	cursor.execute("""
-	CREATE TABLE "movimientos" (
+	cursor.execute("""	CREATE TABLE "movimientos" (
 		"operacion"	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
 		"codigo"	INTEGER NOT NULL DEFAULT 'references articulos(codigo)',
 		"unidad_medida"	INTEGER NOT NULL DEFAULT 'references articulos(unidad_medida)',
@@ -39,4 +37,18 @@ def creabase():
 		"fecha_movimientos"	TEXT
 	);
 	""")
+	conexion.commit()
+
+	cursor.execute("""	CREATE TABLE "transporte" (
+       "operacion"	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+       "cantidad"	INTEGER NOT NULL,
+       "fecha_movimientos"	datetime);
+	""")
+	conexion.commit()
+ 	
+	cursor.execute("""	CREATE TABLE "larueda" (
+       "operacion"	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+       "cantidad"	INTEGER NOT NULL,
+       "fecha_movimientos"	datetime);
+    """)
 	conexion.commit()

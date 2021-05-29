@@ -4,7 +4,7 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 import sqlite3
 import os
-import time
+from datetime import datetime, date, timedelta
 import crea_bd 
 
 # inicio la aplicacion
@@ -23,6 +23,9 @@ app.secret_key = 'mysecretkey'
 # main page
 @app.route('/')
 def index():
+    mes = datetime.now().strftime("%Y%m")
+    mes_ant = (date.today().replace(day=1) - timedelta(days=1)).strftime("%Y%m")
+    
     listar_stock = '''select articulos.codigo, articulos.nombre, articulos.unidad_medida, sum(movimientos.cantidad)
                     from articulos
                     INNER JOIN movimientos  on articulos.codigo = movimientos.codigo and articulos.unidad_medida = movimientos.unidad_medida
@@ -30,14 +33,46 @@ def index():
                     '''
     cursor.execute(listar_stock)
     stock_actual = cursor.fetchall()
+    
     listar_stock2 = '''select articulos.codigo, articulos.nombre, articulos.unidad_medida, materiaprima.cantidad, max(materiaprima.fecha_movimientos)
                     from articulos
                     INNER JOIN materiaprima  on articulos.codigo = materiaprima.codigo and articulos.unidad_medida = materiaprima.unidad_medida
                     group by articulos.codigo
                     '''
     cursor.execute(listar_stock2)
-    mp_actual = cursor.fetchall()
-    return render_template('index.html', cantidades=stock_actual, materiasprimas=mp_actual)
+    mp_actual = cursor.fetchall()    
+    
+    transporte_actual = '''select sum(transporte.cantidad)
+                       from transporte
+                       where transporte.fecha_movimientos like ?
+                    '''
+    cursor.execute(transporte_actual,(mes+"%",))
+    transporte_actual_resultado = cursor.fetchall()
+    
+    transporte_pasado = '''select sum(transporte.cantidad)
+                       from transporte
+                       where transporte.fecha_movimientos like ?
+                    '''
+    cursor.execute(transporte_pasado,(mes_ant+"%",))
+    transporte_pasado_resultado = cursor.fetchall()    
+    
+    rueda_actual = '''select sum(larueda.cantidad)
+                       from larueda
+                       where larueda.fecha_movimientos like ?
+                    '''
+    cursor.execute(rueda_actual,(mes+"%",))
+    rueda_actual_resultado = cursor.fetchall()
+    
+    rueda_pasado = '''select sum(larueda.cantidad)
+                       from larueda
+                       where larueda.fecha_movimientos like ?
+                    '''
+    cursor.execute(rueda_pasado,(mes_ant+"%",))
+    rueda_pasado_resultado = cursor.fetchall()
+    
+    return render_template('index.html', cantidades=stock_actual, materiasprimas=mp_actual, mes=mes, mes_ant=mes_ant, \
+        rueda_actual_resultado=rueda_actual_resultado[0][0], rueda_pasado_resultado=rueda_pasado_resultado[0][0], \
+        transporte_pasado_resultado=transporte_pasado_resultado[0][0], transporte_actual_resultado=transporte_actual_resultado[0][0])
 
 #  pagina de carga de nuevos articulos
 @app.route('/alta', methods=['POST'])
@@ -76,7 +111,7 @@ def alta():
                 conexion.commit()
                 #  mensaje de que se guardo con exito
                 if materiaprima == "1":
-                    fecha = time.strftime("%Y%m%d%H%M%S")
+                    fecha = datetime.now().strftime("%Y%m%d%H%M%S")
                     #  mando los datos a la base de datos materiaprima
                     cursor.execute("insert INTO materiaprima(codigo, unidad_medida, cantidad, fecha_movimientos) values (?,?,0,?)",(articulo_cod,articulo_um,fecha))
                     # los guardo
@@ -94,7 +129,7 @@ def alta():
 @app.route('/entrada', methods=['POST'])
 def entrada():
     if request.method == 'POST':
-        fecha = time.strftime("%Y%m%d%H%M%S")
+        fecha = datetime.now().strftime("%Y%m%d%H%M%S")
         # obtengo los datos cargados en el formulario y los mando a variables
         articulo_cod = request.form['articulo_cod']
         articulo_um = request.form['articulo_um']
@@ -122,7 +157,7 @@ def entrada():
 @app.route('/salida', methods=['POST'])
 def salida():
     if request.method == 'POST':
-        fecha = time.strftime("%Y%m%d%H%M%S")
+        fecha = datetime.now().strftime("%Y%m%d%H%M%S")
         # obtengo los datos cargados en el formulario y los mando a variables
         articulo_cod = request.form['articulo_cod']
         articulo_um = request.form['articulo_um']
@@ -153,7 +188,7 @@ def salida():
 @app.route('/modificar/<codigo>')
 def datos_modificar(codigo):
     # HAGO LA OCNSULTA en la base de datos por el valor que tengo al hacer click en modificar
-    fecha = time.strftime("%Y%m%d%H%M%S")
+    fecha = datetime.now().strftime("%Y%m%d%H%M%S")
     mod_mp = '''select articulos.codigo, articulos.nombre, materiaprima.cantidad, materiaprima.unidad_medida
                     from articulos
                     INNER JOIN materiaprima  on articulos.codigo = materiaprima.codigo and articulos.unidad_medida = materiaprima.unidad_medida
@@ -169,7 +204,7 @@ def datos_modificar(codigo):
 @app.route('/actualiza/<codigo>', methods=['POST'])
 def modificar(codigo):
     if request.method == 'POST':
-        fecha = time.strftime("%Y%m%d%H%M%S")
+        fecha = datetime.now().strftime("%Y%m%d%H%M%S")
         # obtengo los datos cargados en el formulario y los mando a variables
         articulo_cod = request.form['articulo_cod']
         articulo_um = request.form['articulo_um']
@@ -195,6 +230,43 @@ def modificar(codigo):
         #  mensaje de que se guardo con exito
         flash("Entrada Modificada con Éxito")
         return redirect(url_for('index'))
+
+
+################################################################
+# la rueda
+@app.route('/larueda', methods=['POST'])
+def larueda():
+    if request.method == 'POST':
+        fecha = datetime.now().strftime("%Y%m%d%H%M%S")
+        cantidad = request.form['cantidad_cajas']
+        if len(cantidad) != 0:
+            #  mando los datos a la base de datos
+            cursor.execute("insert INTO larueda(cantidad, fecha_movimientos) values (?,?)",(cantidad,fecha))
+            # los guardo
+            conexion.commit()
+            #  mensaje de que se guardo con exito
+        
+            flash("Entrada Agregada con Éxito")
+            return redirect(url_for('index'))
+
+
+#############################################################
+# costanzo
+@app.route('/transporte', methods=['POST'])
+def transporte():
+    if request.method == 'POST':
+        fecha = datetime.now().strftime("%Y%m%d%H%M%S")
+        # obtengo los datos cargados en el formulario y los mando a variables
+        cantidad = request.form['cantidad_viajes']
+        if len(cantidad) != 0:
+            #  mando los datos a la base de datos
+            cursor.execute("insert INTO transporte(cantidad, fecha_movimientos) values (?,?)",(cantidad,fecha))
+            # los guardo
+            conexion.commit()
+            #  mensaje de que se guardo con exito
+            flash("Entrada Agregada con Éxito")
+            return redirect(url_for('index'))
+
 
 # @app.roure('/borrar')
 # def eliminar():

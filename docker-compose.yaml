@@ -1,0 +1,31 @@
+version: '3.3'
+
+services:
+
+  inventario:
+      image: 
+        fayu666/inventario
+      ports: 
+        - "80:5555"
+      volumes:
+        - /media/trabajo/Trabajo/Administracion/Stock.db:/inventario/bd/Stock.db
+
+  ngrok:
+    image: shkoliar/ngrok
+    ports:
+      - 4551:4551
+    links:
+      - inventario
+    environment:
+      - DOMAIN=squad_web
+      - PORT=3000
+      - authtoken= 1qvuHs0Z1tT1ZIuzQ86JFLoaV4B_6ktDvT7BabQ1RUYboAkY7
+
+# datos ngrok
+#           authtoken: 1qvuHs0Z1tT1ZIuzQ86JFLoaV4B_6ktDvT7BabQ1RUYboAkY7
+
+# tunnels:
+#   inventario:
+#     proto: http
+#     addr: 5555
+#     auth: eze:eze

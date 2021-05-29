@@ -10,111 +10,159 @@
         <div class="alert alert-dismissible alert-success">
             <button type="button" class="close" data-dismiss="alert">&times;</button>
             {{ message }}
-          </div>
+        </div>
     {% endfor %}
     {% endif %}
     {% endwith %}
 
-<div class="row">
-
-    <div class="col-xs-1 p-5" >
-        <div class="card border-success mb-3" style="max-width: 20rem;">    
-            <h3 class="card-title text-center">Alta de Artículos</h3>
-            <form class="form-group" action="/alta", method="POST" autocomplete="off">
-                <input class="form-control" type="text" name="articulo_cod" placeholder="Código Artículo">
-                <input class="form-control" type="text" name="articulo_um" placeholder="UM Artículo">
-                <input class="form-control" type="text" name="articulo_nombre" placeholder="Nombre Artículo">
-                <div>
-                    <select class="custom-select" p-1 name="matprim">
-                      <option value="0">Es Matéria Prima?:</option>
-                      <option value="1">Si</option>
-                      <option value="2">No</option>
-                    </select>
-                </div>
-                <button type="submit" class="btn btn-outline-primary btn-block boton-acc">Enviar</button>
-            </form>
+    <div class="grilla">
+<!-- tarjeta para cargar articulos nuevos -->
+        <div class="p-5 center elemento" id="alta" >
+            <div class="card border-success mb-3" style="max-width: 20rem;">    
+                <h3 class="card-title text-center">Alta de Artículos</h3>
+                <form class="form-group" action="/alta", method="POST" autocomplete="off">
+                    <input class="form-control" type="text" name="articulo_cod" placeholder="Código Artículo">
+                    <input class="form-control" type="text" name="articulo_um" placeholder="UM Artículo">
+                    <input class="form-control" type="text" name="articulo_nombre" placeholder="Nombre Artículo">
+                    <div>
+                        <select class="custom-select" p-1 name="matprim">
+                        <option value="0">Es Matéria Prima?:</option>
+                        <option value="1">Si</option>
+                        <option value="2">No</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-outline-primary btn-block boton-acc">Enviar</button>
+                </form>
+            </div>
         </div>
 
-    </div>
-    <div class="col-xs-1 p-5">
-        <div class="card border-success mb-3" style="max-width: 20rem;">
-            <h3 class="card-title text-center">Entrada de Artículos</h3>
-        
-            <form class="form-group" action="/entrada", method="POST" autocomplete="off">
-                <input class="form-control" type="text" name="articulo_cod" placeholder="Código Artículo">
-                <input class="form-control" type="text" name="articulo_um" placeholder="UM Artículo">
-                <input class="form-control" type="text" name="articulo_cantidad" placeholder="Cantidad">
-                <button type="submit" class="btn btn-outline-primary btn-block boton-acc">Enviar</button>
-            </form>
+<!-- tarjeta para cargar lo que entra de mercaderia -->
+        <div class="p-5 elemento" id="entrada">
+            <div class="card border-success mb-3" style="max-width: 20rem;">
+                <h3 class="card-title text-center">Entrada de Artículos</h3>
+            
+                <form class="form-group" action="/entrada", method="POST" autocomplete="off">
+                    <input class="form-control" type="text" name="articulo_cod" placeholder="Código Artículo">
+                    <input class="form-control" type="text" name="articulo_um" placeholder="UM Artículo">
+                    <input class="form-control" type="text" name="articulo_cantidad" placeholder="Cantidad">
+                    <button type="submit" class="btn btn-outline-primary btn-block boton-acc">Enviar</button>
+                </form>
+            </div>
+
         </div>
 
-    </div>
-    <div class="col-xs-1 p-5">
-        <div class="card border-success mb-3" style="max-width: 20rem;">
-            <h3 class="card-title text-center">Salida de Artículos</h3>
-        
-            <form class="form-group" action="/salida", method="POST" autocomplete="off">
-                <input class="form-control" type="text" name="articulo_cod" placeholder="Código Artículo">
-                <input class="form-control" type="text" name="articulo_um" placeholder="UM Artículo">
-                <input class="form-control" type="text" name="articulo_cantidad" placeholder="Cantidad">
-                <button type="submit" class="btn btn-outline-primary btn-block boton-acc">Enviar</button>
-            </form>
+<!-- tarjeta para cargar lo que sale de mercaderia -->
+        <div class="p-5 elemento" id="salida">
+            <div class="card border-success mb-3" style="max-width: 20rem;">
+                <h3 class="card-title text-center">Salida de Artículos</h3>
+                <form class="form-group" action="/salida", method="POST" autocomplete="off">
+                    <input class="form-control" type="text" name="articulo_cod" placeholder="Código Artículo">
+                    <input class="form-control" type="text" name="articulo_um" placeholder="UM Artículo">
+                    <input class="form-control" type="text" name="articulo_cantidad" placeholder="Cantidad">
+                    <button type="submit" class="btn btn-outline-primary btn-block boton-acc">Enviar</button>
+                </form>
+            </div>
         </div>
 
+<!-- tarjeta para cargar lo que lleva la rueda -->
+        <div class="p-5 elemento" id="rueda">
+            <div class="card border-success" style="max-width: 20rem;">
+                <h3 class="card-title text-center">La Rueda</h3>
+                <form class="form-group" action="/larueda", method="POST" autocomplete="off">
+                    <input class="form-control" type="text" name="cantidad_cajas" placeholder="Cantidad" value="1">
+                    <button type="submit" class="btn btn-outline-primary btn-block boton-acc">Enviar</button>
+                </form>
+            </div>
+        </div>
+<!-- tarjeta para cargar los viajes del transporte -->
+        <div class="p-5 elemento" id="transporte">
+            <div class="card border-success" style="max-width: 20rem;">
+                <h3 class="card-title text-center">Transporte</h3>
+                <form class="form-group" action="/transporte", method="POST" autocomplete="off">
+                    <input class="form-control" type="text" name="cantidad_viajes" placeholder="Cantidad" value="1">
+                    <button type="submit" class="btn btn-outline-primary btn-block boton-acc">Enviar</button>
+                </form>
+            </div>
+        </div>
+
+<!-- aca esta la tabla que contiene el listado de mercaderia con sus cantidades -->
+        <div class="p-5 elemento" id="mercaderia">
+            <h3 class="card-title text-center">Stock Mercaderia</h3>
+            <table class="table table-light">
+                <thead>
+                    <th scope="col">Código Articulo</th>
+                    <th scope="col">UM Articulo</th>
+                    <th scope="col">Nombre Articulo</th>
+                    <th scope="col">Cantidad</th>
+                </thead>
+                <tbody>
+                    {% for cantidad in cantidades %}
+                    <tr class="table-active">
+                        <td>{{ cantidad.0}}</td>
+                        <td>{{ cantidad.2}}</td>
+                        <td>{{ cantidad.1}}</td>
+                        <td>{{ cantidad.3}}</td>
+                    </tr>    
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+<!-- aca va el listado de materias primas con sus cantidades  -->
+        <div class="p-5 elemento" id="materiaprima">
+            <h3 class="card-title text-center">Stock Materias Primas</h3>
+            <table class="table table-light">
+                <thead>
+                    <th scope="col">Código Articulo</th>
+                    <!-- <td>UM Articulo</td> -->
+                    <th scope="col">Nombre Articulo</th>
+                    <th scope="col">Cantidad</th>
+                    <th scope="col">Modificar</th>
+                </thead>
+                <tbody>
+                    {% for mp in materiasprimas %}
+                    <tr class="table-active">
+                        <td>{{ mp.0 }}</td>
+                        <!-- <td>{{ mp.2 }}</td> -->
+                        <td>{{ mp.1 }}</td>
+                        <td>{{ mp.3 }}</td>
+                        <td>
+                            <a href="/modificar/{{mp.0}}" class="btn btn-secondary"</button>Modificar</a>
+                        </td>
+                    </tr>    
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="p-5 elemento" id="rueda_viajes">
+            <h3 class="card-title text-center">Cajas de La Rueda</h3>
+            <table class="table table-light">
+                <thead>
+                    <th scope="col">Cajas Mensuales</th>
+                </thead>
+                <tbody>
+                    <tr class="table-active">
+                        <td>Mes Actual({{mes}}) {{rueda_actual_resultado}}</td>
+                        <td>Mes Pasado({{mes_ant}}) {{rueda_pasado_resultado}}</td>
+                    </tr>    
+                </tbody>
+            </table>
+
+           <h3 class="card-title text-center">Fletes</h3>
+            <table class="table table-light">
+                <thead>
+                    <th scope="col">Viajes Mensuales</th>
+                </thead>
+                <tbody>
+                    <tr class="table-active">
+                        <td>Mes Actual({{mes}})  {{ transporte_actual_resultado }}</td>
+                        <td>Mes Pasado({{mes_ant}})  {{ transporte_pasado_resultado }}</td>
+                        </td>
+                    </tr>    
+                </tbody>
+            </table>
+
+        </div>
     </div>
-    
-</div>
-
-
-
-<div>
-    <h3 class="card-title text-center">Stock Mercaderia</h3>
-    <table class="table table-light">
-        <thead>
-            <th scope="col">Código Articulo</th>
-            <th scope="col">UM Articulo</th>
-            <th scope="col">Nombre Articulo</th>
-            <th scope="col">Cantidad</th>
-        </thead>
-        <tbody>
-            {% for cantidad in cantidades %}
-            <tr class="table-active">
-                <td>{{ cantidad.0}}</td>
-                <td>{{ cantidad.2}}</td>
-                <td>{{ cantidad.1}}</td>
-                <td>{{ cantidad.3}}</td>
-            </tr>    
-            {% endfor %}
-        </tbody>
-    </table>
-    
-</div>
-
-<div>
-    <h3 class="card-title text-center">Stock Materias Primas</h3>
-    <table class="table table-light">
-        <thead>
-            <th scope="col">Código Articulo</th>
-            <!-- <td>UM Articulo</td> -->
-            <th scope="col">Nombre Articulo</th>
-            <th scope="col">Cantidad</th>
-            <th scope="col">Modificar</th>
-        </thead>
-        <tbody>
-            {% for mp in materiasprimas %}
-            <tr class="table-active">
-                <td>{{ mp.0 }}</td>
-                <!-- <td>{{ mp.2 }}</td> -->
-                <td>{{ mp.1 }}</td>
-                <td>{{ mp.3 }}</td>
-                <td>
-                    <a href="/modificar/{{mp.0}}" class="btn btn-secondary"</button>Modificar</a>
-                </td>
-            </tr>    
-            {% endfor %}
-        </tbody>
-    </table>
-
-</div>
-
 {% endblock%}
